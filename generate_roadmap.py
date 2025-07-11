@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import urllib.parse
 
 def sanitize_title(title):
     """Sanitizes a title to be used as a valid directory name."""
@@ -64,7 +65,8 @@ for item in daily_plan_items:
     folder_path = get_item_path(item, uuid_to_item)
     if not folder_path:
         continue
-    readme_link = os.path.join(folder_path, 'README.md').replace('\\', '/')
+    readme_path = os.path.join(folder_path, 'README.md').replace('\\', '/')
+    readme_link = urllib.parse.quote(readme_path, safe='/')
     markdown_content += f"- Day {day_counter}: [{title}]({readme_link})\n"
     day_counter += 1
 
@@ -75,7 +77,8 @@ for item in other_topics_items:
     folder_path = get_item_path(item, uuid_to_item)
     if not folder_path:
         continue
-    readme_link = os.path.join(folder_path, 'README.md').replace('\\', '/')
+    readme_path = os.path.join(folder_path, 'README.md').replace('\\', '/')
+    readme_link = urllib.parse.quote(readme_path, safe='/')
     markdown_content += f"- [{title}]({readme_link})\n"
 
 
